@@ -7,7 +7,7 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 })
 export class SampleComponent implements OnInit {
 
-  constructor(private el:ElementRef) { }
+  constructor(private el: ElementRef) { }
 
   get dimensions(): string {
     return `${this.el.nativeElement.offsetWidth} x ${this.el.nativeElement.offsetHeight}`;

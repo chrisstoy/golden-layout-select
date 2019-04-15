@@ -21,7 +21,7 @@ const config: GoldenLayoutConfiguration = {
   defaultLayout: {
     content: [
       {
-        type: "row",
+        type: 'row',
         content: [
           {
             type: 'component',
@@ -29,7 +29,7 @@ const config: GoldenLayoutConfiguration = {
             title: 'Panel 1',
           },
           {
-            type: "column",
+            type: 'column',
             content: [
               {
                 type: 'component',
@@ -52,7 +52,7 @@ const config: GoldenLayoutConfiguration = {
 const materialModules = [
   MatCardModule,
   MatToolbarModule,
-]
+];
 
 @NgModule({
   declarations: [
