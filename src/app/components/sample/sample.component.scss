@@ -1,0 +1,33 @@
+:host {
+    display: flex;
+    flex: 1 1 auto;
+    height: 100%;
+    width: 100%;
+
+    .mat-card {
+        display: flex;
+        width: 100%;
+        flex: 1 1 auto;
+        flex-direction: column;
+    }
+
+    .mat-card-content {
+        display: flex;
+        flex: 1 1 auto;
+        border: thin solid cyan;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+        background-image: url("~/assets/test-x.png");
+        flex: 1 1 auto;
+
+        .sample-content {
+            margin: 1rem;
+            color: white;
+            text-shadow: 2px 2px black;
+            font-size: 1.5rem;
+        }
+
+    }
+
+}
