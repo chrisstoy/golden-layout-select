@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GoldenLayoutConfiguration, GoldenLayoutModule } from '@embedded-enterprises/ng6-golden-layout';
@@ -7,7 +8,7 @@ import * as $ from 'jquery';
 import { AppComponent } from './app.component';
 import { SampleComponent } from './components/sample/sample.component';
 
-  window['$'] = $;
+window['$'] = $;
 
 
 const config: GoldenLayoutConfiguration = {
@@ -18,26 +19,39 @@ const config: GoldenLayoutConfiguration = {
     }
   ],
   defaultLayout: {
-    content: [{
-      type: "row",
-      content: [
-        {
-          type: 'component',
-          componentName: 'sample-component',
-          title: 'Panel 1',
-        },
-        {
-          type: 'component',
-          componentName: 'sample-component',
-          title: 'Panel 2',
-        },
-      ]
-    }]
+    content: [
+      {
+        type: "row",
+        content: [
+          {
+            type: 'component',
+            componentName: 'sample-component',
+            title: 'Panel 1',
+          },
+          {
+            type: "column",
+            content: [
+              {
+                type: 'component',
+                componentName: 'sample-component',
+                title: 'Panel 2',
+              },
+              {
+                type: 'component',
+                componentName: 'sample-component',
+                title: 'Panel 3',
+              },
+            ]
+          }
+        ],
+      }
+    ]
   }
 };
 
 const materialModules = [
   MatCardModule,
+  MatToolbarModule,
 ]
 
 @NgModule({
