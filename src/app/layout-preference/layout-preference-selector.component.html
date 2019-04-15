@@ -1,0 +1,4 @@
+<span>{{label}}</span>
+<mat-select [placeholder]="placeholder" [value]="activeLayout$ | async" (selectionChange)="handleSelectionChange($event)">
+  <mat-option *ngFor="let item of (availableLayouts$ | async)" [value]="item"> {{ item.label }} </mat-option>
+</mat-select>

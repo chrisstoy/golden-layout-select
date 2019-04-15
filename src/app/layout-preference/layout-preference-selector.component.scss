@@ -1,0 +1,10 @@
+:host {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+
+  .mat-select {
+    margin-left: 1rem;
+    width: 10rem;
+  }
+}

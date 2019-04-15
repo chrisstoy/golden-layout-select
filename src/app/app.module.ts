@@ -7,6 +7,7 @@ import { GoldenLayoutConfiguration, GoldenLayoutModule } from '@embedded-enterpr
 import * as $ from 'jquery';
 import { AppComponent } from './app.component';
 import { SampleComponent } from './components/sample/sample.component';
+import { LayoutPreferenceModule } from './layout-preference/layout-preference.module';
 
 window['$'] = $;
 
@@ -63,6 +64,7 @@ const materialModules = [
     BrowserModule,
     BrowserAnimationsModule,
     ...materialModules,
+    LayoutPreferenceModule,
     GoldenLayoutModule.forRoot(config),
   ],
   providers: [],
