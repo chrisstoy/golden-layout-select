@@ -4,10 +4,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { DEFAULT_LOCAL_STORAGE_STATE_STORE_FACTORY, GoldenLayoutConfiguration, GoldenLayoutModule, GoldenLayoutStateStore } from '@embedded-enterprises/ng6-golden-layout';
+import { GoldenLayoutConfiguration, GoldenLayoutModule, GoldenLayoutService } from '@embedded-enterprises/ng6-golden-layout';
 import * as $ from 'jquery';
 import { AppComponent } from './app.component';
 import { SampleComponent } from './components/sample/sample.component';
+import { GoldenLayoutExtService } from './layout-preference/golden-layout-ext.service';
+import { LAYOUT_PREFERENCES_LOCAL_STORAGE_STATE_STORE_PROVIDER } from './layout-preference/layout-preference-state-store';
 import { LayoutPreferenceModule } from './layout-preference/layout-preference.module';
 
 window['$'] = $;
@@ -72,12 +74,10 @@ const materialModules = [
   bootstrap: [AppComponent],
   entryComponents: [SampleComponent],
   providers: [
+    LAYOUT_PREFERENCES_LOCAL_STORAGE_STATE_STORE_PROVIDER,
     {
-      // TODO - This is what is serializing to the Local Store! 
-      // should be able to provide custom one to dynamically change
-      // layout from service
-      provide: GoldenLayoutStateStore,
-      useFactory: DEFAULT_LOCAL_STORAGE_STATE_STORE_FACTORY,
+      provide: GoldenLayoutService,
+      useClass: GoldenLayoutExtService,
     },
   ],
 })

@@ -1,5 +1,5 @@
 <span>{{label}}</span>
 <mat-select [placeholder]="placeholder" [value]="activeLayout$ | async"
-  (selectionChange)="handleSelectionChange($event)">
+  (selectionChange)="handleSelectionChange($event)" [compareWith]="compareLayoutFn">
   <mat-option *ngFor="let item of (availableLayouts$ | async)" [value]="item"> {{ item.name }} </mat-option>
 </mat-select>

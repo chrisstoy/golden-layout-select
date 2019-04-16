@@ -18,7 +18,7 @@ export class AppComponent {
       component: SampleComponent
     }
 
-    this.goldenLayoutService.createNewComponent(panelConfig, 'Added Panel');
+    this.goldenLayoutService.createNewComponent(panelConfig, `Panel ${Math.random()}`);
   }
 
 
