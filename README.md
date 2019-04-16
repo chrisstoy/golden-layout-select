@@ -1,27 +1,29 @@
-# TestLayoutSwitch
+# GoldenLayout Run-Time Layout Selection
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.7.
+This app demonstrates how to implement duynamic layout switching with [ng-golden-layout](https://github.com/EmbeddedEnterprises/ng6-golden-layout)
 
-## Development server
+## How to Use
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Add the `LayoutPreferenceModule` to your `app.module.ts`. Then, add the following to the `providers` section:
 
-## Code scaffolding
+```
+    LAYOUT_PREFERENCES_LOCAL_STORAGE_STATE_STORE_PROVIDER,
+    {
+      provide: GoldenLayoutService,
+      useClass: GoldenLayoutExtService,
+    },
+```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+This adds the State provider and patches the GoldenLayoutService to allow access to the base GoldenLayout object.
 
-## Build
+To add the default Layout Selector, add the following to your html:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```
+<layout-preference-selector><layout-preference-selector>
+```
 
-## Running unit tests
+This adds a MatSelect that allows the user to pick wich Layout to display.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## More Info
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+See the app.component to see how the LayoutPreference module can be used.
