@@ -1,14 +1,13 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { GoldenLayoutStateStore, StateStore } from '@embedded-enterprises/ng6-golden-layout';
+import { LAYOUT_PREFERENCE_LOCAL_STORAGE_KEYS } from './layout-preference-keys';
 
 export const LayoutPreferenceStateStore = new InjectionToken('LayoutPreferenceStateStore');
-
-export const LAYOUT_PREFERENCES_LOCAL_STORAGE_STATE_STORE_KEY = 'LayoutPreferenceService.last-selected-layout';
 
 export class LocalStorageStateStore implements StateStore {
     constructor(private readonly key: string) { }
 
-    writeState(state: any): void {
+    writeState(_state: any): void {
         // don't do anything when asked to write.  this is handle in the LayoutPreferenceService
     }
 
@@ -21,13 +20,11 @@ export class LocalStorageStateStore implements StateStore {
     }
 }
 
-export function LAYOUT_PREFERENCES_LOCAL_STORAGE_STATE_STORE_FACTORY() {
-    return new LocalStorageStateStore(LAYOUT_PREFERENCES_LOCAL_STORAGE_STATE_STORE_KEY);
+export function LayoutPreferenceLocalStorageStateStoreFactory() {
+    return new LocalStorageStateStore(LAYOUT_PREFERENCE_LOCAL_STORAGE_KEYS.LAST_SELECTED);
 }
-
-export const LAYOUT_PREFERENCES_LOCAL_STORAGE_STATE_STORE = new LocalStorageStateStore(LAYOUT_PREFERENCES_LOCAL_STORAGE_STATE_STORE_KEY);
 
 export const LAYOUT_PREFERENCES_LOCAL_STORAGE_STATE_STORE_PROVIDER: Provider = {
     provide: GoldenLayoutStateStore,
-    useFactory: LAYOUT_PREFERENCES_LOCAL_STORAGE_STATE_STORE_FACTORY
+    useFactory: LayoutPreferenceLocalStorageStateStoreFactory
 };

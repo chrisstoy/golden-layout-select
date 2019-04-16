@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { MatSelectChange } from '@angular/material';
-import { LayoutPreference } from './layout-preference.interface';
+import { Component, Input, ViewChild } from '@angular/core';
+import { MatSelect, MatSelectChange } from '@angular/material';
+import { LayoutConfig } from './layout-config.interface';
 import { LayoutPreferenceService } from './layout-preference.service';
 
 @Component({
@@ -11,6 +11,7 @@ import { LayoutPreferenceService } from './layout-preference.service';
 export class LayoutPreferenceSelectorComponent {
   @Input() label: string = 'Layout:';
   @Input() placeholder: string = 'Choose Layout';
+  @ViewChild('selector') matSelector: MatSelect;
 
   activeLayout$ = this.layoutPreferenceService.activeLayout$;
   availableLayouts$ = this.layoutPreferenceService.availableLayouts$;
@@ -22,7 +23,12 @@ export class LayoutPreferenceSelectorComponent {
     this.layoutPreferenceService.activeLayout = selection.value;
   }
 
-  compareLayoutFn(l1: LayoutPreference, l2: LayoutPreference): boolean {
+  compareLayoutFn(l1: LayoutConfig, l2: LayoutConfig): boolean {
     return l1 && l2 ? l1.name === l2.name : l1 === l2;
+  }
+
+  saveLayout(layoutName: string) {
+    this.layoutPreferenceService.saveLayoutAs(layoutName);
+    this.matSelector.close();
   }
 }

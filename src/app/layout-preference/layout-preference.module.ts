@@ -1,13 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatFormFieldModule, MatOptionModule, MatSelectModule } from '@angular/material';
+import { MatFormFieldModule, MatIconModule, MatOptionModule, MatSelectModule } from '@angular/material';
 import { LayoutPreferenceSelectorComponent } from './layout-preference-selector.component';
 
 const components = [LayoutPreferenceSelectorComponent];
+const materialModules = [
+  MatFormFieldModule,
+  MatSelectModule,
+  MatOptionModule,
+  MatIconModule,
+];
 
 @NgModule({
   declarations: components,
   exports: components,
-  imports: [CommonModule, MatFormFieldModule, MatSelectModule, MatOptionModule],
+  imports: [CommonModule, ...materialModules],
 })
-export class LayoutPreferenceModule {}
+export class LayoutPreferenceModule { }
