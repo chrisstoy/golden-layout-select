@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
+import { GoldenLayoutService } from '@embedded-enterprises/ng6-golden-layout';
 import { BehaviorSubject } from 'rxjs';
+import complexConfig from '../../assets/default-layouts/complex.json';
+import defaultConfig from '../../assets/default-layouts/default.json';
 import { LayoutPreference } from './layout-preference.interface';
 
 @Injectable({
@@ -14,17 +17,17 @@ export class LayoutPreferenceService {
   set activeLayout(value: LayoutPreference) {
     this.activeLayoutSubject.next(value);
   }
-  constructor() {
+  constructor(private goldenLayoutService: GoldenLayoutService) {
     const layouts: LayoutPreference[] = [
-      {
-        default: true,
-        label: 'Inbound Planner',
-      },
-      {
-        default: true,
-        label: 'Dispatcher',
-      },
+      defaultConfig as any as LayoutPreference,
+      complexConfig as any as LayoutPreference,
     ];
+
+    this.activeLayout$.subscribe((newLayout: LayoutPreference) => {
+      console.log(`New Layout ${newLayout ? newLayout.name : 'undefined'}`);
+
+      // TODO - load the new config and reset GoldenLayout with it
+    });
 
     // set defaults
 
