@@ -12,6 +12,20 @@
     height: 100vh;
     width: 100%;
 
+    span > * {
+        margin-left: 2rem;
+    }
+
+    .mat-toolbar {
+        .filler {
+            flex: 1 1 auto;
+        }
+
+        .layout-selector {
+            font-size: 1rem;
+        }
+    }
+
 }
 
 .app-Golden-Layout {

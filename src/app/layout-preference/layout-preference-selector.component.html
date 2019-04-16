@@ -1,0 +1,13 @@
+<span>{{label}}</span>
+<mat-select #selector [placeholder]="placeholder" [value]="activeLayout$ | async"
+  (selectionChange)="handleSelectionChange($event)" [compareWith]="compareLayoutFn">
+
+  <mat-option *ngFor="let item of (availableLayouts$ | async)" [value]="item">
+    <span class="layout-name">{{ item.name }}</span>
+  </mat-option>
+
+  <span class="layout-preferences-selection__save-new-layout">
+    <input matInput type="text" placeholder="Save Layout As..." #newLayoutName>
+    <button (click)="saveLayout(newLayoutName.value)">Save</button>
+  </span>
+</mat-select>

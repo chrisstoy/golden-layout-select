@@ -1,0 +1,4 @@
+polyfills.ts
+/**/*.json
+/**/*.ftl
+/**/*.scss
