@@ -1,8 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatFormFieldModule, MatIconModule, MatOptionModule, MatSelectModule } from '@angular/material';
-import { GoldenLayoutModule, GoldenLayoutService } from '@embedded-enterprises/ng6-golden-layout';
+import {
+  GoldenLayoutConfiguration,
+  GoldenLayoutModule,
+  GoldenLayoutService,
+} from '@embedded-enterprises/ng6-golden-layout';
 import { GoldenLayoutExtService } from './golden-layout-ext.service';
+import { InjectedLayoutConfiguration } from './injected-layout-configuration.class';
 import { LayoutPreferenceSelectorComponent } from './layout-preference-selector.component';
 import { LAYOUT_PREFERENCES_LOCAL_STORAGE_STATE_STORE_PROVIDER } from './layout-preference-state-store';
 
@@ -18,6 +23,10 @@ const materialModules = [MatFormFieldModule, MatSelectModule, MatOptionModule, M
     {
       provide: GoldenLayoutService,
       useClass: GoldenLayoutExtService,
+    },
+    {
+      provide: GoldenLayoutConfiguration,
+      useClass: InjectedLayoutConfiguration,
     },
   ],
 })

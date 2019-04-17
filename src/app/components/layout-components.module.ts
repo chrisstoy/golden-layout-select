@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule, MatCardModule, MatIconModule, MatInputModule, MatToolbarModule } from '@angular/material';
-import { GoldenLayoutConfiguration } from '@embedded-enterprises/ng6-golden-layout';
+import { LayoutPreferenceLayoutComponents } from '../layout-preference/layout-preference.service';
 import { SampleComponent } from './sample/sample.component';
 
 // Define the components that can be used by Golden Layout
@@ -19,17 +19,12 @@ const materialModules = [MatCardModule, MatToolbarModule, MatButtonModule, MatIn
 @NgModule({
   imports: [CommonModule, ...materialModules],
   declarations: components,
-  exports: components,
   entryComponents: components,
   providers: [
     {
-      provide: GoldenLayoutConfiguration,
-      useValue: {
-        components: layoutComponents,
-        defaultLayout: {
-          content: [],
-        },
-      },
+      // This provides the Components that GoldenLayout uses to build the layout
+      provide: LayoutPreferenceLayoutComponents,
+      useValue: layoutComponents,
     },
   ],
 })
