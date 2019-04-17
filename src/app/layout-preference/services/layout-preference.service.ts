@@ -1,13 +1,11 @@
-import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
-import { GoldenLayoutService } from '@embedded-enterprises/ng6-golden-layout';
+import { Injectable } from '@angular/core';
+import { ComponentConfiguration, GoldenLayoutService } from '@embedded-enterprises/ng6-golden-layout';
 import { BehaviorSubject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { LayoutConfig } from '../layout-config.interface';
+import { LAYOUT_PREFERENCE_LOCAL_STORAGE_KEYS } from '../layout-preference-keys.js';
 import { GoldenLayoutExtService } from './golden-layout-ext.service.js';
-import { LayoutConfig } from './layout-config.interface';
-import { LAYOUT_PREFERENCE_LOCAL_STORAGE_KEYS } from './layout-preference-keys.js';
 
-export const LayoutPreferenceDefaultLayouts = new InjectionToken('LayoutPreferenceDefaultLayoutsToken');
-export const LayoutPreferenceLayoutComponents = new InjectionToken('LayoutPreferenceLayoutComponentsToken');
 @Injectable({
   providedIn: 'root',
 })
@@ -20,12 +18,7 @@ export class LayoutPreferenceService {
   set activeLayout(value: LayoutConfig) {
     this.activeLayoutSubject.next(value);
   }
-  constructor(
-    private goldenLayoutService: GoldenLayoutService,
-    @Optional() @Inject(LayoutPreferenceDefaultLayouts) private defaultLayouts: LayoutConfig[]
-  ) {
-    this.initLayouts();
-
+  constructor(private goldenLayoutService: GoldenLayoutService) {
     this.activeLayout$.pipe(distinctUntilChanged()).subscribe((newLayout: LayoutConfig) => {
       if (newLayout) {
         this.loadLayout(newLayout);
@@ -39,8 +32,15 @@ export class LayoutPreferenceService {
     });
   }
 
-  private initLayouts() {
-    const layouts: LayoutConfig[] = [...(this.defaultLayouts ? this.defaultLayouts : [])];
+  /**
+   * Initialize with the passed Components and default Layouts. Loads user configurations.
+   */
+  initialize(components: ComponentConfiguration[], defaultLayouts: LayoutConfig[]) {
+    // set the components
+    this.goldenLayoutService.config.components = components;
+
+    // init the layouts
+    const layouts: LayoutConfig[] = [...(defaultLayouts ? defaultLayouts : [])];
 
     // load save layouts from local storage
     const userLayoutsJSON = localStorage.getItem(LAYOUT_PREFERENCE_LOCAL_STORAGE_KEYS.USER_LAYOUTS);
@@ -52,21 +52,23 @@ export class LayoutPreferenceService {
     this.availableLayoutsSubject.next(layouts);
 
     if (layouts.length === 0) {
-      // There is now layout.  Create a default one using the first component
+      // There are no layouts.  Create a default one using the first component
       const defaultComponent = this.goldenLayoutService.config.components[0];
-      layouts.push({
-        name: 'default',
-        default: true,
-        content: [
-          {
-            type: 'component',
-            componentName: defaultComponent.componentName,
-            title: defaultComponent.componentName,
-            isClosable: true,
-            reorderEnabled: true,
-          },
-        ],
-      });
+      if (defaultComponent) {
+        layouts.push({
+          name: 'default',
+          default: true,
+          content: [
+            {
+              type: 'component',
+              componentName: defaultComponent.componentName,
+              title: defaultComponent.componentName,
+              isClosable: true,
+              reorderEnabled: true,
+            },
+          ],
+        });
+      }
     }
 
     // set the Default layout, if available
@@ -128,15 +130,21 @@ export class LayoutPreferenceService {
       content: currentLayout.content,
     };
 
+    // remove the named layout if it is already in the list
+    const defaultLayouts = this.availableLayoutsSubject.value.filter((item) => item.default);
     const userLayouts = this.availableLayoutsSubject.value.filter(
       (item) => !item.default && item.name.toLowerCase() !== layoutName.toLowerCase()
     );
+
     userLayouts.push(newLayout);
 
     const userLayoutsJSON = JSON.stringify(userLayouts);
     localStorage.setItem(LAYOUT_PREFERENCE_LOCAL_STORAGE_KEYS.USER_LAYOUTS, userLayoutsJSON);
 
-    this.initLayouts();
+    // reset the list of available layouts
+    this.availableLayoutsSubject.next([...defaultLayouts, ...userLayouts]);
+
+    // set the layout we just saved as active
     this.activeLayout = this.getLayout(layoutName);
   }
 }

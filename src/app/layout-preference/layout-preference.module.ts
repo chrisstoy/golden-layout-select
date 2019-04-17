@@ -1,15 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatFormFieldModule, MatIconModule, MatOptionModule, MatSelectModule } from '@angular/material';
-import {
-  GoldenLayoutConfiguration,
-  GoldenLayoutModule,
-  GoldenLayoutService,
-} from '@embedded-enterprises/ng6-golden-layout';
-import { GoldenLayoutExtService } from './golden-layout-ext.service';
-import { InjectedLayoutConfiguration } from './injected-layout-configuration.class';
-import { LayoutPreferenceSelectorComponent } from './layout-preference-selector.component';
+import { GoldenLayoutModule, GoldenLayoutService } from '@embedded-enterprises/ng6-golden-layout';
+import { LayoutPreferenceSelectorComponent } from './components/layout-preference-selector.component';
 import { LAYOUT_PREFERENCES_LOCAL_STORAGE_STATE_STORE_PROVIDER } from './layout-preference-state-store';
+import { GoldenLayoutExtService } from './services/golden-layout-ext.service';
 
 const components = [LayoutPreferenceSelectorComponent];
 const materialModules = [MatFormFieldModule, MatSelectModule, MatOptionModule, MatIconModule];
@@ -17,16 +12,27 @@ const materialModules = [MatFormFieldModule, MatSelectModule, MatOptionModule, M
 @NgModule({
   declarations: components,
   exports: components,
-  imports: [CommonModule, ...materialModules, GoldenLayoutModule],
+  imports: [
+    CommonModule,
+    ...materialModules,
+    GoldenLayoutModule.forRoot({
+      components: [],
+      defaultLayout: {
+        content: [
+          {
+            type: 'component',
+            componentName: 'sample-component',
+            title: 'Panel 1',
+          },
+        ],
+      },
+    }),
+  ],
   providers: [
     LAYOUT_PREFERENCES_LOCAL_STORAGE_STATE_STORE_PROVIDER,
     {
       provide: GoldenLayoutService,
       useClass: GoldenLayoutExtService,
-    },
-    {
-      provide: GoldenLayoutConfiguration,
-      useClass: InjectedLayoutConfiguration,
     },
   ],
 })
