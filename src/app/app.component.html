@@ -1,14 +1,22 @@
 <!-- host our Golden Layout component here -->
 <div class="app-Container">
     <mat-toolbar>
-        <span>Golden Layout - Layout Selection Test</span>
+        <span class="title">Golden Layout - Layout Selection Test</span>
         <span class="filler"></span>
-        <span>
-            <button mat-stroked-button color="primary" (click)="addPanel()">Add Panel</button>
+        <span class="add-panel">
+            <mat-select #panelToAdd placeholder="Select Panel Component">
+                <mat-option *ngFor="let panel of availablePanels" [value]="panel">
+                    {{panel.componentName}}
+                </mat-option>
+            </mat-select>
+            <button mat-icon-button matTooltip="Add Panel" [disabled]="!panelToAdd.value"
+                (click)="addPanel(panelToAdd.value)">
+                <mat-icon>add</mat-icon>
+            </button>
         </span>
         <span class="layout-selector">
             <layout-preference-selector label="Selected Layout:"></layout-preference-selector>
         </span>
     </mat-toolbar>
-    <golden-layout-root class="app-Golden-Layout"></golden-layout-root>
+    <router-outlet></router-outlet>
 </div>

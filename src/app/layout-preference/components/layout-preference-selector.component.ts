@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { MatSelect, MatSelectChange } from '@angular/material';
-import { LayoutConfig } from './layout-config.interface';
-import { LayoutPreferenceService } from './layout-preference.service';
+import { LayoutConfig } from '../layout-config.interface';
+import { LayoutPreferenceService } from '../services/layout-preference.service';
 
 @Component({
   selector: 'layout-preference-selector',
@@ -16,8 +16,7 @@ export class LayoutPreferenceSelectorComponent {
   activeLayout$ = this.layoutPreferenceService.activeLayout$;
   availableLayouts$ = this.layoutPreferenceService.availableLayouts$;
 
-  constructor(private layoutPreferenceService: LayoutPreferenceService) {
-  }
+  constructor(private layoutPreferenceService: LayoutPreferenceService) {}
 
   handleSelectionChange(selection: MatSelectChange) {
     this.layoutPreferenceService.activeLayout = selection.value;
